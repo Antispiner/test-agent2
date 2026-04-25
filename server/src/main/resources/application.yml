@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+snake:
+  db:
+    path: snake.db
+  arena:
+    width: 40
+    height: 30
+    tickRateMs: 66
+    maxApples: 3
+    respawnDelayMs: 5000
+    fadeOutMs: 400
