@@ -192,7 +192,9 @@ public class ArenaState {
         for (Snake s : snakes.values()) {
             if (!s.alive) continue;
             int[] h = s.head();
-            int[] nh = {h[0] + s.dir.dx, h[1] + s.dir.dy};
+            int nx = Math.floorMod(h[0] + s.dir.dx, width);
+            int ny = Math.floorMod(h[1] + s.dir.dy, height);
+            int[] nh = {nx, ny};
             newHeads.put(s.id, nh);
         }
 
@@ -221,10 +223,6 @@ public class ArenaState {
         for (Map.Entry<String, int[]> e : newHeads.entrySet()) {
             String id = e.getKey();
             int[] nh = e.getValue();
-            if (!inBounds(nh)) {
-                doomed.add(id);
-                continue;
-            }
             List<String> here = headCellOccupants.get(key(nh));
             if (here != null && here.size() > 1) {
                 doomed.add(id);
