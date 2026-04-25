@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GameLogicTest {
 
     @Test
-    void wallCollisionKills() {
+    void leftWallWraps() {
         ArenaState a = new ArenaState(40, 30, 3, 1L);
         ArenaState.Snake s = a.addSnake("p1");
         s.segments.clear();
@@ -19,8 +19,69 @@ class GameLogicTest {
         s.dir = ArenaState.Dir.LEFT;
         s.pendingDir = ArenaState.Dir.LEFT;
         s.alive = true;
+        a.apples().clear();
+        int len = s.segments.size();
         a.step();
-        assertFalse(s.alive, "snake should die hitting left wall");
+        assertTrue(s.alive, "wrap left, no death");
+        assertEquals(39, s.head()[0]);
+        assertEquals(5, s.head()[1]);
+        assertEquals(len, s.segments.size(), "length unchanged");
+    }
+
+    @Test
+    void rightWallWraps() {
+        ArenaState a = new ArenaState(40, 30, 3, 11L);
+        ArenaState.Snake s = a.addSnake("p1");
+        s.segments.clear();
+        s.segments.add(new int[]{39, 5});
+        s.segments.add(new int[]{38, 5});
+        s.segments.add(new int[]{37, 5});
+        s.dir = ArenaState.Dir.RIGHT;
+        s.pendingDir = ArenaState.Dir.RIGHT;
+        s.alive = true;
+        a.apples().clear();
+        int len = s.segments.size();
+        a.step();
+        assertTrue(s.alive);
+        assertEquals(0, s.head()[0]);
+        assertEquals(5, s.head()[1]);
+        assertEquals(len, s.segments.size());
+    }
+
+    @Test
+    void topWallWraps() {
+        ArenaState a = new ArenaState(40, 30, 3, 12L);
+        ArenaState.Snake s = a.addSnake("p1");
+        s.segments.clear();
+        s.segments.add(new int[]{10, 0});
+        s.segments.add(new int[]{10, 1});
+        s.segments.add(new int[]{10, 2});
+        s.dir = ArenaState.Dir.UP;
+        s.pendingDir = ArenaState.Dir.UP;
+        s.alive = true;
+        a.apples().clear();
+        a.step();
+        assertTrue(s.alive);
+        assertEquals(10, s.head()[0]);
+        assertEquals(29, s.head()[1]);
+    }
+
+    @Test
+    void bottomWallWraps() {
+        ArenaState a = new ArenaState(40, 30, 3, 13L);
+        ArenaState.Snake s = a.addSnake("p1");
+        s.segments.clear();
+        s.segments.add(new int[]{10, 29});
+        s.segments.add(new int[]{10, 28});
+        s.segments.add(new int[]{10, 27});
+        s.dir = ArenaState.Dir.DOWN;
+        s.pendingDir = ArenaState.Dir.DOWN;
+        s.alive = true;
+        a.apples().clear();
+        a.step();
+        assertTrue(s.alive);
+        assertEquals(10, s.head()[0]);
+        assertEquals(0, s.head()[1]);
     }
 
     @Test
