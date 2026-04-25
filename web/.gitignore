@@ -3,4 +3,5 @@ dist
 .vite
 *.log
 *.tsbuildinfo
+coverage
 .DS_Store
