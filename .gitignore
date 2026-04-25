@@ -1,0 +1,22 @@
+# Java
+target/
+*.class
+*.jar
+*.war
+
+# Node
+node_modules/
+dist/
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
